@@ -4,6 +4,7 @@ import { fileURLToPath, URL } from "node:url"; // nodejs
 import AutoImport from 'unplugin-auto-import/vite'// 组件自动导入
 import Components from 'unplugin-vue-components/vite'// 组件自动导入
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'// element-plus
+import removeConsole from "vite-plugin-remove-console";// 移除console
 export default defineConfig(({ command, mode }) => {
   const { VITE_APP_HOST, VITE_APP_PORT } = loadEnv(
     mode,
@@ -24,7 +25,7 @@ export default defineConfig(({ command, mode }) => {
           "vue-router",
           "vue-i18n",
           "@vueuse/core",
-          { "@/stores": ["useStore"] },
+          { "@/stores": ["useStore"]},
         ],
       }),
       Components({
@@ -33,6 +34,7 @@ export default defineConfig(({ command, mode }) => {
           ElementPlusResolver(),
         ],
       }),
+      removeConsole()
     ],
     server: {
       host: VITE_APP_HOST,
@@ -91,7 +93,7 @@ export default defineConfig(({ command, mode }) => {
         },
       },
       sourcemap: false,
-      // assetsInlineLimit: 1024 * 10,
+      assetsInlineLimit: 1024 * 10,
     },
     envDir: fileURLToPath(new URL("./src/env", import.meta.url)),
     publicDir: false,
